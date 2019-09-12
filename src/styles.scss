@@ -1,5 +1,7 @@
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 
+$headerHeight: 65px;
+
 html,
 body {
   height: 100%;
@@ -7,4 +9,11 @@ body {
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+app-sign-in,
+app-sign-up {
+  .auth-page-row {
+    height: calc(100% - #{$headerHeight});
+  }
 }
