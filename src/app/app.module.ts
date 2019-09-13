@@ -8,11 +8,17 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AuthModule } from './auth/auth.module';
 
 import { AppComponent } from './app.component';
-import { ChatroomComponent } from './chatroom/chatroom.component';
 import { HeaderComponent } from './header/header.component';
+import { ChatroomComponent } from './chatroom/chatroom.component';
+import { UsersListComponent } from './chatroom/users-list/users-list.component';
 
 @NgModule({
-  declarations: [AppComponent, ChatroomComponent, HeaderComponent],
+  declarations: [
+    AppComponent,
+    ChatroomComponent,
+    HeaderComponent,
+    UsersListComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
