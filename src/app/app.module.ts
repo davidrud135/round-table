@@ -12,6 +12,7 @@ import { HeaderComponent } from './header/header.component';
 import { ChatroomComponent } from './chatroom/chatroom.component';
 import { UsersListComponent } from './chatroom/users-list/users-list.component';
 import { ChatMessagesComponent } from './chatroom/chat-messages/chat-messages.component';
+import { ControlPanelComponent } from './chatroom/control-panel/control-panel.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { ChatMessagesComponent } from './chatroom/chat-messages/chat-messages.co
     HeaderComponent,
     UsersListComponent,
     ChatMessagesComponent,
+    ControlPanelComponent,
   ],
   imports: [
     BrowserModule,
