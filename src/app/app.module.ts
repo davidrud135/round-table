@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { ChatroomComponent } from './chatroom/chatroom.component';
 import { UsersListComponent } from './chatroom/users-list/users-list.component';
+import { ChatMessagesComponent } from './chatroom/chat-messages/chat-messages.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { UsersListComponent } from './chatroom/users-list/users-list.component';
     ChatroomComponent,
     HeaderComponent,
     UsersListComponent,
+    ChatMessagesComponent,
   ],
   imports: [
     BrowserModule,
