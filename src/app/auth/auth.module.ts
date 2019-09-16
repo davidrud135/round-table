@@ -8,10 +8,19 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { SignInComponent } from './sign-in/sign-in.component';
+import { AnonymousGuard } from './anonymous.guard';
 
 const routes: Routes = [
-  { path: 'sign-up', component: SignUpComponent },
-  { path: 'sign-in', component: SignInComponent },
+  {
+    path: 'sign-up',
+    component: SignUpComponent,
+    canActivate: [AnonymousGuard],
+  },
+  {
+    path: 'sign-in',
+    component: SignInComponent,
+    canActivate: [AnonymousGuard],
+  },
 ];
 
 @NgModule({
