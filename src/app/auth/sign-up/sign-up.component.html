@@ -1,25 +1,45 @@
 <div class="auth-page-row" fxLayout="row" fxLayoutAlign="center center">
-  <mat-card fxFlex="50%">
-    <mat-card-header fxLayoutAlign="center">
-      <mat-card-title>Register</mat-card-title>
-    </mat-card-header>
-    <mat-card-content fxLayout="column">
-      <mat-form-field>
-        <input matInput type="text" placeholder="Display name" />
-        <mat-icon matSuffix>person</mat-icon>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput type="email" placeholder="Email" />
-        <mat-icon matSuffix>email</mat-icon>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput type="password" placeholder="Password" />
-        <mat-icon matSuffix>lock</mat-icon>
-      </mat-form-field>
-    </mat-card-content>
-    <mat-card-actions fxLayout="column" fxLayoutAlign="center center">
-      <button mat-raised-button color="primary">Sign Up</button>
-      <p>Already have an account? <a routerLink="/sign-in">Sign In.</a></p>
-    </mat-card-actions>
+  <mat-progress-spinner
+    *ngIf="isLoading"
+    mode="indeterminate"
+  ></mat-progress-spinner>
+  <mat-card fxFlex="50%" *ngIf="!isLoading">
+    <form [formGroup]="signUpForm" (ngSubmit)="onSignUp()">
+      <mat-card-header fxLayoutAlign="center">
+        <mat-card-title>Register</mat-card-title>
+      </mat-card-header>
+      <mat-card-content fxLayout="column">
+        <mat-form-field appearance="fill">
+          <mat-label>Display name</mat-label>
+          <input matInput type="text" formControlName="displayName" />
+          <mat-icon matSuffix>person</mat-icon>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" />
+          <mat-icon matSuffix>email</mat-icon>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="pass" />
+          <mat-hint *ngIf="signUpForm.get('pass').dirty" align="end">
+            {{ signUpForm.get('pass').value.length }} /
+            {{ passwordMinLength }}
+          </mat-hint>
+          <mat-icon matSuffix>lock</mat-icon>
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-actions fxLayout="column" fxLayoutAlign="center center">
+        <button
+          type="submit"
+          mat-raised-button
+          color="primary"
+          [disabled]="signUpForm.invalid"
+        >
+          Sign Up
+        </button>
+        <p>Already have an account? <a routerLink="/sign-in">Sign In.</a></p>
+      </mat-card-actions>
+    </form>
   </mat-card>
 </div>
