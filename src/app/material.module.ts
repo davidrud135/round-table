@@ -9,6 +9,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatDividerModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    MatMenuModule,
   ],
   exports: [
     MatButtonModule,
@@ -32,6 +34,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatDividerModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    MatMenuModule,
   ],
 })
 export class MaterialModule {}
