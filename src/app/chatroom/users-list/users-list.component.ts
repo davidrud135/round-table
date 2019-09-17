@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { User } from 'src/app/core/models/user.model';
 import { ChatService } from './../../core/chat.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-users-list',
@@ -9,11 +10,11 @@ import { ChatService } from './../../core/chat.service';
   styleUrls: ['./users-list.component.scss'],
 })
 export class UsersListComponent implements OnInit {
-  users: User[] = [];
+  users$: Observable<User[]>;
 
   constructor(private chatService: ChatService) {}
 
   ngOnInit() {
-    this.users = this.chatService.getUsers();
+    this.users$ = this.chatService.getAllUsersDataExceptOwner();
   }
 }
