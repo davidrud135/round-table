@@ -1,36 +1,43 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {
+  AngularFirestore,
+  AngularFirestoreDocument,
+} from '@angular/fire/firestore';
+import { Observable, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 import { User } from '../core/models/user.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private user$: Observable<firebase.User | null>;
-  private currentUserId: string;
+  private user$: Observable<User | null>;
 
   constructor(
     private afAuth: AngularFireAuth,
     private afStore: AngularFirestore,
     private router: Router,
   ) {
-    this.user$ = this.afAuth.user;
-    this.user$.subscribe((user: firebase.User) => {
-      if (user) {
-        this.currentUserId = user.uid;
-      }
-    });
+    this.user$ = this.afAuth.user.pipe(
+      switchMap((user: firebase.User | null) => {
+        if (!user) {
+          return of(null);
+        }
+        return this.afStore
+          .collection('users')
+          .doc(user.uid)
+          .valueChanges();
+      }),
+    );
   }
 
-  public getAuthUser(): Observable<firebase.User | null> {
+  public getUser(): Observable<User | null> {
     return this.user$;
   }
 
   public isAuthenticated(): Observable<boolean> {
-    return this.user$.pipe(map((user: firebase.User | null) => !!user));
+    return this.user$.pipe(map((user: User | null) => !!user));
   }
 
   public signUp(
@@ -42,7 +49,7 @@ export class AuthService {
       .createUserWithEmailAndPassword(email, pass)
       .then((resp: firebase.auth.UserCredential) => {
         const { uid: userId, email: userEmail } = resp.user;
-        this.addNewUserToDB(userId, displayName, userEmail);
+        this.setUserData(userId, displayName, userEmail);
         return resp;
       })
       .catch(this.handleAuthError);
@@ -79,30 +86,23 @@ export class AuthService {
     return Promise.reject(errorMessage);
   }
 
-  public getCurrentUserData(): Observable<User> {
-    return this.afStore
-      .collection('users')
-      .doc<User>(this.currentUserId)
-      .valueChanges();
-  }
-
   // tslint:disable: max-line-length
-  private addNewUserToDB(
+  private setUserData(
     id: string,
     displayName: string,
     email: string,
+    photoURL: string = 'https://firebasestorage.googleapis.com/v0/b/round-table-chat.appspot.com/o/users-avatar-images%2Fdefault-avatar.png?alt=media&token=46277007-c947-4c38-b32a-b726df8ef85e',
   ): Promise<void> {
-    const defaultUserAvatarURL =
-      'https://firebasestorage.googleapis.com/v0/b/round-table-chat.appspot.com/o/users-avatar-images%2Fdefault-avatar.png?alt=media&token=46277007-c947-4c38-b32a-b726df8ef85e';
-    const userData = {
+    const userDocRef: AngularFirestoreDocument<User> = this.afStore
+      .collection('users')
+      .doc(id);
+    const userData: User = {
+      id,
       displayName,
       email,
-      photoURL: defaultUserAvatarURL,
+      photoURL,
     };
 
-    return this.afStore
-      .collection('users')
-      .doc(id)
-      .set(userData);
+    return userDocRef.set(userData, { merge: true });
   }
 }
