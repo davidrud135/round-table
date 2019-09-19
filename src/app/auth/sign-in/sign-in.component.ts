@@ -40,8 +40,8 @@ export class SignInComponent implements OnInit {
   }
 
   onSuccessSignIn(): void {
-    this.authService.getAuthUser().subscribe((user: firebase.User | null) => {
-      if (user) {
+    this.authService.isAuthenticated().subscribe((isAuth: boolean) => {
+      if (isAuth) {
         this.isLoading = false;
         this.router.navigateByUrl('');
       }

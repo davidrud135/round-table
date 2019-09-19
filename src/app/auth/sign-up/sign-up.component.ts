@@ -21,7 +21,7 @@ export class SignUpComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.onSuccessSignIn();
+    this.onSuccessSignUp();
     this.signUpForm = new FormGroup({
       displayName: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -46,9 +46,9 @@ export class SignUpComponent implements OnInit {
     this.signUpForm.reset();
   }
 
-  onSuccessSignIn(): void {
-    this.authService.getAuthUser().subscribe((user: firebase.User | null) => {
-      if (user) {
+  onSuccessSignUp(): void {
+    this.authService.isAuthenticated().subscribe((isAuth: boolean) => {
+      if (isAuth) {
         this.isLoading = false;
         this.router.navigateByUrl('');
       }
