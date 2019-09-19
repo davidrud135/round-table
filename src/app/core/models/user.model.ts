@@ -5,7 +5,7 @@
  * @property {string} photoURL - user avatar photo URL.
  */
 export interface User {
-  id?: string;
+  id: string;
   email: string;
   displayName: string;
   photoURL: string;
