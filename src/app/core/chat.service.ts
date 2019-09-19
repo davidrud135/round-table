@@ -11,15 +11,15 @@ import { AuthService } from './../auth/auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class ChatService {
-  private currentUserId: string;
+  private currUserId: string;
 
   constructor(
     private afStore: AngularFirestore,
     private authService: AuthService,
   ) {
-    this.authService.getAuthUser().subscribe((user: firebase.User | null) => {
+    this.authService.getUser().subscribe((user: User | null) => {
       if (user) {
-        this.currentUserId = user.uid;
+        this.currUserId = user.id;
       }
     });
   }
@@ -27,23 +27,11 @@ export class ChatService {
   public getAllUsersDataExceptOwner(): Observable<User[]> {
     return this.afStore
       .collection<User>('users')
-      .snapshotChanges()
+      .valueChanges()
       .pipe(
-        map(this.getDocsDataWithId),
         map((users: User[]) => {
-          return users.filter((user: User) => user.id !== this.currentUserId);
+          return users.filter((user: User) => user.id !== this.currUserId);
         }),
       );
-  }
-
-  private getDocsDataWithId(
-    collectionActions: DocumentChangeAction<any>[],
-  ): any[] {
-    return collectionActions.map((docAction: DocumentChangeAction<any>) => {
-      const doc = docAction.payload.doc;
-      const id = doc.id;
-      const data = doc.data();
-      return { id, ...data };
-    });
   }
 }
