@@ -5,14 +5,14 @@
       <a class="header-title" mat-button routerLink="/">Round Table</a>
     </div>
     <div
-      *ngIf="isAuthenticated"
+      *ngIf="user$ | async as user"
       class="profile-block"
       fxLayout="row"
       fxLayoutAlign="start center"
     >
       <span>Welcome home,</span>
       <a mat-button [matMenuTriggerFor]="profileMenu">
-        {{ userDisplayName }}
+        {{ user.displayName }}
         <mat-icon>keyboard_arrow_down</mat-icon>
       </a>
     </div>
