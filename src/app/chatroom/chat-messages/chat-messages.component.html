@@ -1,13 +1,13 @@
-<div fxLayout="column" fxLayoutGap="5px">
+<div #chatBox fxLayout="column" fxLayoutGap="5px">
   <mat-card
-    *ngFor="let message of messages"
+    *ngFor="let message of messages$ | async"
     [fxFlexAlign]="isOwnMessage(message) ? 'end' : 'start'"
   >
     <mat-card-header>
       <div mat-card-avatar [ngStyle]="getMessageAvatarStyles(message)"></div>
       <mat-card-title>{{ message.sender.displayName }}</mat-card-title>
       <mat-card-subtitle>
-        {{ message.sentDate.toLocaleString() }}
+        {{ formatMessageTimestamp(message) }}
       </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
