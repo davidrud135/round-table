@@ -1,13 +1,14 @@
 import { User } from './user.model';
 
 /**
- * Defines an interface for Message object type.
+ * Defines an interface for Message object.
  * @property {string} text - message text.
- * @property {User} sender - user object who sent the message.
- * @property {Date} sentDate - time and date object when message was sent.
+ * @property {User} sender - user data who sent the message.
+ * @property {firebase.firestore.Timestamp} sentAt - Firestore Timestamp object
+ *  contains info about the moment when message was sent.
  */
 export interface Message {
   text: string;
   sender: User;
-  sentDate: Date;
+  sentAt: firebase.firestore.Timestamp;
 }
