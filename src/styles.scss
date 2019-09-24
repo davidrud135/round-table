@@ -10,11 +10,8 @@ body {
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
-}
 
-app-sign-in,
-app-sign-up {
-  .auth-page-row {
+  .full-page-row-including-header {
     height: calc(100% - #{$headerHeight});
   }
 }
