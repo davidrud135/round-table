@@ -5,7 +5,7 @@ import {
 } from '@angular/fire/firestore';
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { firestore } from 'firebase';
+import { firestore } from 'firebase/app';
 
 import { User } from './models/user.model';
 import { Message } from './models/message.model';
