@@ -1,0 +1,85 @@
+<div
+  class="full-page-row-including-header"
+  fxLayout="row"
+  fxLayoutAlign="center center"
+>
+  <mat-card
+    fxFlex="80%"
+    fxLayout="column"
+    fxLayoutGap="10px"
+    *ngIf="user; else loadingSpinner"
+  >
+    <mat-card-header
+      fxLayout="column"
+      fxLayoutAlign="center center"
+      fxLayoutGap="10px"
+    >
+      <mat-card-title>Profile</mat-card-title>
+      <div
+        class="profile-avatar"
+        [style.background-image]="getSafeAvatarURLStyle(user)"
+        (click)="openAvatarActions()"
+      ></div>
+      <div
+        fxFlexFill
+        fxLayout="column"
+        fxLayoutAlign="center center"
+        *ngIf="uploadPercentage$ | async as perc"
+      >
+        <mat-progress-bar [value]="perc"></mat-progress-bar>
+        <span>Uploading...</span>
+      </div>
+    </mat-card-header>
+    <div>
+      <mat-divider></mat-divider>
+    </div>
+    <mat-card-content>
+      <form #profileForm="ngForm" fxLayout="column" (ngSubmit)="onSaveForm()">
+        <mat-form-field appearance="outline">
+          <mat-label>Display Name</mat-label>
+          <input
+            matInput
+            type="text"
+            name="displayNameControl"
+            [ngModel]="user.displayName"
+            required
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            type="email"
+            name="emailControl"
+            [ngModel]="user.email"
+            disabled
+          />
+        </mat-form-field>
+        <div fxLayout="row" fxLayoutAlign="space-between center ">
+          <button mat-stroked-button type="button" (click)="resetForm()">
+            <mat-icon>undo</mat-icon>
+            Reset
+          </button>
+          <button
+            mat-raised-button
+            type="submit"
+            color="primary"
+            [disabled]="
+              profileForm.invalid ||
+              profileForm.pristine ||
+              profileForm.controls['displayNameControl'].value ===
+                user.displayName
+            "
+          >
+            <mat-icon>done</mat-icon>
+            SAVE
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <ng-template #loadingSpinner>
+    <mat-spinner mode="indeterminate"></mat-spinner>
+  </ng-template>
+</div>
