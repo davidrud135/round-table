@@ -1,0 +1,16 @@
+$headerHeight: 64px;
+$controlPanelHeight: 82px;
+
+app-users-list,
+app-chat-messages {
+  overflow-y: auto;
+}
+
+app-chat-messages {
+  padding: 10px;
+  background-color: aqua;
+}
+
+section {
+  height: calc(100% - #{$headerHeight + $controlPanelHeight});
+}

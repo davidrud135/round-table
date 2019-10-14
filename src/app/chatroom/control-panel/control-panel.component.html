@@ -1,0 +1,24 @@
+<mat-toolbar color="accent">
+  <mat-toolbar-row
+    fxLayout="row"
+    fxLayoutAlign="space-between center"
+    fxLayoutGap="20px"
+  >
+    <mat-form-field fxFlex floatLabel="never">
+      <input
+        matInput
+        placeholder="Message text"
+        [(ngModel)]="msgFieldValue"
+        (keyup.enter)="onMessageSend()"
+      />
+    </mat-form-field>
+    <button
+      (click)="onMessageSend()"
+      type="button"
+      mat-raised-button
+      color="primary"
+    >
+      Send
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>

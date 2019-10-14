@@ -1,0 +1,8 @@
+<mat-list>
+  <h3 mat-subheader>Users</h3>
+  <mat-list-item *ngFor="let user of users$ | async">
+    <img matListAvatar [src]="user.photoURL" [alt]="user.displayName" />
+    <h3 matLine>{{ user.displayName }}</h3>
+    <mat-divider></mat-divider>
+  </mat-list-item>
+</mat-list>
