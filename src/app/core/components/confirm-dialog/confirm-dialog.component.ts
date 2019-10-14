@@ -11,7 +11,7 @@ interface DialogData {
   styleUrls: ['./confirm-dialog.component.scss'],
 })
 export class ConfirmDialogComponent implements OnInit {
-  constructor(@Inject(MAT_DIALOG_DATA) private data: DialogData) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
   ngOnInit() {}
 }
