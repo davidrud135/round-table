@@ -5,6 +5,7 @@ import {
   AngularFirestore,
   AngularFirestoreDocument,
 } from '@angular/fire/firestore';
+import { AngularFireStorage } from '@angular/fire/storage';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
@@ -17,6 +18,7 @@ export class AuthService {
   constructor(
     private afAuth: AngularFireAuth,
     private afStore: AngularFirestore,
+    private afStorage: AngularFireStorage,
     private router: Router,
   ) {
     this.user$ = this.afAuth.user.pipe(
@@ -47,9 +49,9 @@ export class AuthService {
   ): Promise<firebase.auth.UserCredential | string> {
     return this.afAuth.auth
       .createUserWithEmailAndPassword(email, pass)
-      .then((resp: firebase.auth.UserCredential) => {
+      .then(async (resp: firebase.auth.UserCredential) => {
         const { uid: userId, email: userEmail } = resp.user;
-        this.setUserData(userId, displayName, userEmail);
+        await this.setNewUserData(userId, displayName, userEmail);
         return resp;
       })
       .catch(this.handleAuthError);
@@ -86,23 +88,24 @@ export class AuthService {
     return Promise.reject(errorMessage);
   }
 
-  // tslint:disable: max-line-length
-  private setUserData(
+  private async setNewUserData(
     id: string,
     displayName: string,
     email: string,
-    photoURL: string = 'https://firebasestorage.googleapis.com/v0/b/round-table-chat.appspot.com/o/users-avatar-images%2Fdefault-avatar.png?alt=media&token=46277007-c947-4c38-b32a-b726df8ef85e',
   ): Promise<void> {
     const userDocRef: AngularFirestoreDocument<User> = this.afStore
       .collection('users')
       .doc(id);
+    const defaultUserAvatarImageURL = await this.afStorage.storage
+      .ref('users-avatar-images/default-avatar.png')
+      .getDownloadURL();
     const userData: User = {
       id,
       displayName,
       email,
-      photoURL,
+      photoURL: defaultUserAvatarImageURL,
     };
 
-    return userDocRef.set(userData, { merge: true });
+    return userDocRef.set(userData);
   }
 }
