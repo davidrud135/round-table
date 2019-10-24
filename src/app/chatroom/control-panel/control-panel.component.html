@@ -2,7 +2,7 @@
   <mat-toolbar-row
     fxLayout="row"
     fxLayoutAlign="space-between center"
-    fxLayoutGap="20px"
+    ngClass.xs="xs-screen-control-panel"
   >
     <mat-form-field fxFlex floatLabel="never">
       <input
@@ -13,12 +13,13 @@
       />
     </mat-form-field>
     <button
-      (click)="onMessageSend()"
+      fxHide.gt-xs
       type="button"
-      mat-raised-button
+      mat-icon-button
       color="primary"
+      (click)="onMessageSend()"
     >
-      Send
+      <mat-icon>send</mat-icon>
     </button>
   </mat-toolbar-row>
 </mat-toolbar>

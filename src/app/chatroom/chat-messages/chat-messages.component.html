@@ -2,6 +2,7 @@
   <mat-card
     *ngFor="let message of messages$ | async"
     [fxFlexAlign]="isOwnMessage(message) ? 'end' : 'start'"
+    ngClass.xs="xs-screen-message"
   >
     <mat-card-header>
       <div mat-card-avatar [ngStyle]="getMessageAvatarStyles(message)"></div>
