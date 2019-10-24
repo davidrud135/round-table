@@ -1,4 +1,5 @@
-$headerHeight: 64px;
+$defaultHeaderHeight: 64px;
+$xsScreenHeaderHeight: 56px;
 $controlPanelHeight: 82px;
 
 app-users-list,
@@ -12,5 +13,8 @@ app-chat-messages {
 }
 
 section {
-  height: calc(100% - #{$headerHeight + $controlPanelHeight});
+  height: calc(100% - #{$defaultHeaderHeight + $controlPanelHeight});
+}
+section.xs-screen-section {
+  height: calc(100% - #{$xsScreenHeaderHeight + $controlPanelHeight});
 }
